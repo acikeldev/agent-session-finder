@@ -15,7 +15,7 @@ npm run package      # builds agent-session-finder-<version>.vsix
 code --install-extension agent-session-finder-<version>.vsix --force
 npm run publish:vsce # VS Code Marketplace (needs `vsce login acikeldev` or VSCE_PAT)
 npm run publish:ovsx # Open VSX (needs OVSX_PAT); update the .vsix name in the script when the version changes
-pwsh scripts/demo/launch-demo.ps1  # isolated VS Code with fake sessions, for recording media/demo.gif
+pwsh scripts/demo/launch-demo.ps1  # isolated VS Code (separate stable build) with fake sessions, for recording media/demo.gif; -Fresh resets its profile
 ```
 - Package with `--no-dependencies` (the scripts do). The extension has no runtime dependencies, and vsce's npm-based dependency detection breaks when the folder path contains a UUID (npm masks it as `***`).
 - Test fixtures that write paths into JSONL must JSON-escape them (`JSON.stringify(p).slice(1, -1)`), or Windows backslashes make the line invalid.

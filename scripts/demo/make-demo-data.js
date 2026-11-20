@@ -10,7 +10,8 @@ if (!process.argv[2]) { console.error('Usage: node make-demo-data.js <demoRoot>'
 const root = path.resolve(process.argv[2]).replace(/^[A-Z]:/, (d) => d.toLowerCase());
 const claudeDir = path.join(root, 'claude');
 const projectsDir = path.join(claudeDir, 'projects');
-fs.rmSync(claudeDir, { recursive: true, force: true });
+// Only the sessions are regenerated; a Claude Code login stored in claudeDir survives.
+fs.rmSync(projectsDir, { recursive: true, force: true });
 
 const cwdOf = (name) => path.join(root, name);
 for (const p of ['acme-api', 'acme-web', 'infra']) fs.mkdirSync(path.join(root, p), { recursive: true });
