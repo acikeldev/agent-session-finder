@@ -1,0 +1,142 @@
+{
+  "name": "agent-session-finder",
+  "displayName": "Session Finder for Claude Code",
+  "description": "Full-text search across all your Claude Code sessions — and resume any of them in the Claude Code panel with one click.",
+  "version": "0.1.0",
+  "publisher": "acikeldev",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "AI"
+  ],
+  "keywords": [
+    "claude",
+    "claude code",
+    "session",
+    "history",
+    "search",
+    "resume",
+    "anthropic"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "sessionFinder.search",
+        "title": "Search Claude Sessions",
+        "category": "Session Finder",
+        "icon": "$(search)"
+      },
+      {
+        "command": "sessionFinder.searchWorkspace",
+        "title": "Search Claude Sessions in This Workspace",
+        "category": "Session Finder"
+      },
+      {
+        "command": "sessionFinder.resumeById",
+        "title": "Resume Session by ID…",
+        "category": "Session Finder"
+      },
+      {
+        "command": "sessionFinder.reindex",
+        "title": "Rebuild Index",
+        "category": "Session Finder"
+      },
+      {
+        "command": "sessionFinder.showHelp",
+        "title": "Search Syntax Help",
+        "category": "Session Finder"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "sessionFinder.search",
+        "key": "ctrl+alt+shift+f",
+        "mac": "cmd+alt+shift+f"
+      }
+    ],
+    "configuration": {
+      "title": "Session Finder",
+      "properties": {
+        "sessionFinder.resumeTarget": {
+          "type": "string",
+          "enum": [
+            "panel",
+            "terminal"
+          ],
+          "enumDescriptions": [
+            "Open the session in the Claude Code extension panel",
+            "Run `claude --resume <id>` in an integrated terminal"
+          ],
+          "default": "panel",
+          "description": "Where pressing Enter on a result resumes the session."
+        },
+        "sessionFinder.includeToolContent": {
+          "type": "boolean",
+          "default": false,
+          "description": "Also index tool calls and tool output (commands, file paths, command output). Finds more, but uses more memory."
+        },
+        "sessionFinder.claudeConfigDirs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Claude config directories to scan (each must contain a `projects` folder). Empty = $CLAUDE_CONFIG_DIR or ~/.claude."
+        },
+        "sessionFinder.terminalCommand": {
+          "type": "string",
+          "default": "claude --resume ${sessionId}",
+          "description": "Command used for terminal resume. ${sessionId} is replaced."
+        },
+        "sessionFinder.persistIndex": {
+          "type": "boolean",
+          "default": true,
+          "description": "Cache the extracted session text in VS Code's extension storage so startup is instant. The cache never leaves your machine."
+        },
+        "sessionFinder.maxResults": {
+          "type": "number",
+          "default": 200,
+          "minimum": 10,
+          "maximum": 2000,
+          "description": "Maximum number of results shown."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p .",
+    "test": "npm run compile && node --test out/test/*.test.js",
+    "package": "npm run compile && vsce package --no-dependencies",
+    "publish:vsce": "npm test && vsce publish --no-dependencies",
+    "publish:ovsx": "npm test && vsce package --no-dependencies && ovsx publish agent-session-finder-0.1.0.vsix"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/vscode": "^1.85.0",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.1.1",
+    "ovsx": "^1.4.0",
+    "typescript": "^5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acikeldev/agent-session-finder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/acikeldev/agent-session-finder/issues"
+  },
+  "homepage": "https://github.com/acikeldev/agent-session-finder#readme",
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#202430",
+    "theme": "dark"
+  }
+}

@@ -1,0 +1,12 @@
+src/**
+out/test/**
+**/*.map
+fixtures/**
+node_modules/**
+tsconfig.json
+.gitignore
+**/*.ts
+CLAUDE.md
+*.vsix
+media/*.gif
+scripts/**
